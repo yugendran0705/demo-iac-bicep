@@ -1,34 +1,35 @@
 trigger:
-- main   # Trigger when pushing to main branch
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  resourceGroupName: 'yugen-rg'        
-  location: 'eastus'                   
-  deploymentName: 'bicep-vm-deployment'
-  templateFile: './template.bicep'
-  parametersFile: './parameters.json'
+  AZURE_CLIENT_ID: "4401696e-b604-4ea0-b1de-f68da692c2a8"
+  AZURE_TENANT_ID: "2a731c61-a2b2-4661-8409-5b861cf40d0c"
+  AZURE_SUBSCRIPTION_ID: "145ccdc1-6c51-4e45-a04e-21bdea03d170"
 
 stages:
 - stage: Deploy
-  displayName: 'Deploy Azure VM via Bicep'
   jobs:
   - job: DeployInfra
-    displayName: 'Run Azure CLI Deployment'
     steps:
+    - checkout: self
+
     - task: AzureCLI@2
-      displayName: 'Deploy Bicep Template'
+      displayName: 'Deploy Bicep using Managed Identity'
       inputs:
-        azureSubscription: 'github.com_yugendran0705'  
-        scriptType: bash
-        scriptLocation: inlineScript
+        azureSubscription: ''
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
         inlineScript: |
-          echo "Starting Bicep deployment..."
-          az group create --name $(resourceGroupName) --location $(location)
+          az login --federated-token "$(System.AccessToken)" \
+                   --service-principal \
+                   -u $AZURE_CLIENT_ID \
+                   --tenant $AZURE_TENANT_ID
+          az account set --subscription $AZURE_SUBSCRIPTION_ID
+
           az deployment group create \
-            --name $(deploymentName) \
-            --resource-group $(resourceGroupName) \
-            --template-file $(templateFile) \
-            --parameters @$(parametersFile)
+            --resource-group "yugen-rg" \
+            --template-file "template.bicep" \
+            --parameters "@parameters.json"
