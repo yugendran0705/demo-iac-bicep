@@ -15,21 +15,25 @@ stages:
   - job: DeployInfra
     steps:
     - checkout: self
-
     - task: AzureCLI@2
-      displayName: 'Deploy Bicep using Managed Identity'
+      displayName: 'Deploy Bicep using Managed Identity (OIDC)'
       inputs:
-        azureSubscription: ''
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+          echo "Logging in with federated identity..."
           az login --federated-token "$(System.AccessToken)" \
-                   --service-principal \
-                   -u $AZURE_CLIENT_ID \
-                   --tenant $AZURE_TENANT_ID
+                  --service-principal \
+                  -u $AZURE_CLIENT_ID \
+                  --tenant $AZURE_TENANT_ID
           az account set --subscription $AZURE_SUBSCRIPTION_ID
 
+          echo "Deploying Bicep template..."
           az deployment group create \
             --resource-group "yugen-rg" \
-            --template-file "template.bicep" \
+            --template-file template.bicep \
             --parameters "@parameters.json"
+      env:
+        AZURE_CLIENT_ID: "4401696e-b604-4ea0-b1de-f68da692c2a8"
+        AZURE_TENANT_ID: "2a731c61-a2b2-4661-8409-5b861cf40d0c"
+        AZURE_SUBSCRIPTION_ID: "145ccdc1-6c51-4e45-a04e-21bdea03d170"
