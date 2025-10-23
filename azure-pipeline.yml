@@ -22,5 +22,5 @@ stages:
         scriptLocation: 'inlineScript'
         inlineScript: |
           az deployment group create \
-            --resource-group MyRG \
-            --template-file main.bicep
+            --resource-group yugen-rg \
+            --template-file template.bicep
