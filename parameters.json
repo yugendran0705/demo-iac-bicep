@@ -1,0 +1,104 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "eastus"
+        },
+        "networkInterfaceName1": {
+            "value": "vm-1942_z1"
+        },
+        "enableAcceleratedNetworking": {
+            "value": true
+        },
+        "networkSecurityGroupName": {
+            "value": "vm-2-nsg"
+        },
+        "networkSecurityGroupRules": {
+            "value": [
+                {
+                    "name": "SSH",
+                    "properties": {
+                        "priority": 300,
+                        "protocol": "TCP",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "22"
+                    }
+                }
+            ]
+        },
+        "subnetName": {
+            "value": "default"
+        },
+        "virtualNetworkId": {
+            "value": "/subscriptions/145ccdc1-6c51-4e45-a04e-21bdea03d170/resourceGroups/yugen-rg/providers/Microsoft.Network/virtualNetworks/yugen-vnet-1"
+        },
+        "publicIpAddressName1": {
+            "value": "vm-1-ip"
+        },
+        "publicIpAddressType": {
+            "value": "Static"
+        },
+        "publicIpAddressSku": {
+            "value": "Standard"
+        },
+        "pipDeleteOption": {
+            "value": "Delete"
+        },
+        "virtualMachineName": {
+            "value": "vm-1"
+        },
+        "virtualMachineName1": {
+            "value": "vm-1"
+        },
+        "virtualMachineComputerName1": {
+            "value": "vm-1"
+        },
+        "virtualMachineRG": {
+            "value": "yugen-rg"
+        },
+        "osDiskType": {
+            "value": "Premium_LRS"
+        },
+        "osDiskDeleteOption": {
+            "value": "Delete"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_D2ls_v5"
+        },
+        "nicDeleteOption": {
+            "value": "Delete"
+        },
+        "hibernationEnabled": {
+            "value": false
+        },
+        "adminUsername": {
+            "value": "azureuser"
+        },
+        "adminPassword": {
+            "value": "password@123"
+        },
+        "enablePeriodicAssessment": {
+            "value": "ImageDefault"
+        },
+        "customData": {
+            "value": "IyEvYmluL2Jhc2gKYXB0IHVwZGF0ZSAmJiBhcHQgaW5zdGFsbCBuZ2lueCAteQ=="
+        },
+        "securityType": {
+            "value": "TrustedLaunch"
+        },
+        "secureBoot": {
+            "value": true
+        },
+        "vTPM": {
+            "value": true
+        },
+        "virtualMachine1Zone": {
+            "value": "1"
+        }
+    }
+}
