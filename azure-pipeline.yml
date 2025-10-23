@@ -17,7 +17,7 @@ stages:
     - checkout: self
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'Azure-Federated-Connection'
+        azureSubscription: 'yugen-demo'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
