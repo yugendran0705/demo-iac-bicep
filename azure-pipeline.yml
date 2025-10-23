@@ -8,8 +8,8 @@ variables:
   resourceGroupName: 'yugen-rg'        
   location: 'eastus'                   
   deploymentName: 'bicep-vm-deployment'
-  templateFile: 'template.bicep'
-  parametersFile: 'parameters.json'
+  templateFile: './template.bicep'
+  parametersFile: './parameters.json'
 
 stages:
 - stage: Deploy
@@ -21,7 +21,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy Bicep Template'
       inputs:
-        azureSubscription: 'github.com_yugendran0705'   # 👈 Must match your Azure DevOps Service Connection name
+        azureSubscription: 'github.com_yugendran0705'  
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
